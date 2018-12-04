@@ -1,0 +1,210 @@
+{% extends "header.html" %}
+{% block content %}
+
+<style>
+  h1 {
+    margin-bottom: 100px;
+  }
+  .btn {
+    height: 50px;
+    width: 150px;
+  }
+  #build_table {
+    margin-top: 100px;
+    margin-bottom: 100px;
+  }
+  #options {
+    margin-top: 100px;
+  }
+  h2 {
+    margin-bottom: 70px;
+  }
+}
+</style>
+
+<h1 class='text-center'>Parameters for Pivot Table</h1>
+<br>
+<h2 class='text-center'>Row and Column Inputs</h2>
+<div class='row text-center'>
+  <div class='col-md-4'>
+    <h3 id='category1'>______</h3>
+  </div>
+  <div class='col-md-4'>
+    <h2>VS</h2>
+  </div>
+  <div class='col-md-4'>
+    <h3 id='category2'>______</h3>
+  </div>
+</div>
+<br>
+<h2 class='text-center'>Value Filters</h2>
+<div class='row text-center'>
+  <div class='col-md-4'>
+    <h3 id='subcategory1'>______</h3>
+  </div>
+  <div class='col-md-4'>
+    <h2>VS</h2>
+  </div>
+  <div class='col-md-4'>
+    <h3 id='subcategory2'>______</h3>
+  </div>
+</div>
+<!-- POST data to application for pivot table and graph rendering -->
+<div class="row text-center" id='options'>
+    <div class="dropdown col-md-3">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><h5>Rows</h5>
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li class='filter1' id='Subdivision'><a>Sub-Division</a></li>
+          <li class='filter1' id='Regions'><a>Regions</a></li>
+          <li class='filter1' id='Crimes'><a>Crimes</a></li>
+          <li class='filter1' id='Specific Offence'><a>Specific Offence</a></li>
+        </ul>
+    </div> 
+    
+    <div class="dropdown col-md-3">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><h5>Columns</h5>
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li class='filter2' id='Subdivision'><a>Sub-Division</a></li>
+          <li class='filter2' id='Regions'><a>Regions</a></li>
+          <li class='filter2' id='Crimes'><a>Crimes</a></li>
+          <li class='filter2' id='Specific Offence'><a>Specific Offence</a></li>
+          <li class='filter2' id='Years'><a>Years</a></li>
+          <li class='filter2' id='Months'><a>Months</a></li>
+        </ul>
+    </div> 
+
+    <!-- Filter 1 -->
+    <div class="dropdown col-md-3">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" disabled='disabled' id='Filter1'><h5>Filter1</h5>
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu" id='Filter1_menu'>
+            <!-- Render Here! -->
+        </ul>
+    </div> 
+    <!-- Filter 2 -->
+    <div class="dropdown col-md-3">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" disabled='disabled' id='Filter2'><h5>Filter2</h5>
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu" id='Filter2_menu'>
+          <!-- Render Here! -->
+        </ul>
+    </div> 
+</div>
+<div class='row text-center'>
+    <form action="{{ url_for('display') }}" method='POST'>
+    <input type='hidden' name='category1_input' id='category1_input' value="" >
+    <input type='hidden' name='category2_input' id='category2_input' value="" >
+    <input type='hidden' name='sub_category1_input' id='sub_category1_input' value="" >
+    <input type='hidden' name='sub_category2_input' id='sub_category2_input' value="" >
+    <!-- Submit Button -->
+    <input class='btn btn-primary text-center' align="center" type='submit' value='Build Table' id='build_table'
+           disabled='disabled'/>
+  </form><!-- End Form --> 
+</div>
+<script>
+$(document).ready(function(){
+
+  function handle_exception(opt1, opt2){
+    if(opt1 === 'Crimes' && opt2 === 'Specific Offence'){
+      return 0;
+    }
+    else if(opt2 === 'Crimes' && opt1 === 'Specific Offence'){
+      return 0;
+    }
+    else if(opt1 === 'Regions' && opt2 === 'Subdivision'){
+      return 0;
+    }
+    else if(opt2 === 'Regions' && opt1 === 'Subdivision'){
+      return 0;
+    }
+    else {
+      return 1;
+    }
+  }
+  // Selectors used to create dropdown
+  // opts used to handle exceptions
+  var selector1;
+  var selector2;
+  var opt1;
+  var opt2;
+
+  $('.filter1').click(function(){
+    opt1 = this.id;
+    if(opt1 !== opt2 && handle_exception(opt1, opt2)){
+        $('#category1_input').attr('value', this.id);
+        $('#Filter1').removeAttr('disabled');
+        $('#Filter1').html(this.id);
+        $('#category1').html(this.id);
+        if(this.id === 'Regions'){
+          selector1 = "{% for i in regions %}<li class='sub_option1' id='{{i}}'><a>{{i}}</a></li>{% endfor %}";
+         }
+        else if(this.id === 'Crimes'){
+          selector1 = "{% for i in crimes %}<li class='sub_option1' id='{{i}}'><a>{{i}}</a></li>{% endfor %}";
+         }
+        else if(this.id === 'Specific Offence'){
+          selector1 = "{% for i in crime_categories %}<li class='sub_option1' id='{{i}}'><a>{{i}}</a></li>{% endfor %}";
+        }
+        else if(this.id === 'Subdivision'){
+          selector1 = "{% for i in division %}<li class='sub_option1' id='{{i}}'><a>{{i}}</a></li>{% endfor %}";
+        }
+        $('#Filter1_menu').html(selector1);
+        if(opt1 !== undefined && opt2 !== undefined){
+          $('#build_table').removeAttr('disabled');
+        }
+    }
+    $('.sub_option1').click(function(){
+      $('#subcategory1').html(this.id);
+    });
+
+    $('.sub_option2').click(function(){
+      $('#subcategory2').html(this.id);
+    });
+  });
+
+  $('.filter2').click(function(){
+    opt2 = this.id; 
+    if(opt1 !== opt2 && handle_exception(opt1, opt2)){
+        $('#category2_input').attr('value', this.id);
+        $('#Filter2').removeAttr('disabled');
+        $('#Filter2').html(this.id);
+        $('#category2').html(this.id);
+        if(this.id === 'Regions'){
+          selector2 = "{% for i in regions %}<li class='sub_option2' id='{{i}}'><a>{{i}}</a></li>{% endfor %}";
+         }
+        else if(this.id === 'Crimes'){
+          selector2 = "{% for i in crimes %}<li class='sub_option2' id='{{i}}'><a>{{i}}</a></li>{% endfor %}";
+         }
+        else if(this.id === 'Specific Offence'){
+          selector2 = "{% for i in crime_categories %}<li class='sub_option2' id='{{i}}'><a>{{i}}</a></li>{% endfor %}";
+        }
+        else if(this.id === 'Subdivision'){
+          selector2 = "{% for i in division %}<li class='sub_option2' id='{{i}}'><a>{{i}}</a></li>{% endfor %}";
+        }
+        else if(this.id === 'Years'){
+          selector2 = "{% for i in years %}<li class='sub_option2' id='{{i}}'><a>{{i}}</a></li>{% endfor %}";
+        }
+        else if(this.id === 'Months'){
+          selector2 = "{% for i in months %}<li class='sub_option2' id='{{i}}'><a>{{i}}</a></li>{% endfor %}";
+        }
+        $('#Filter2_menu').html(selector2);
+        if(opt1 !== undefined && opt2 !== undefined){
+          $('#build_table').removeAttr('disabled');
+      }
+    }
+    $('.sub_option1').click(function(){
+      $('#subcategory1').html(this.id);
+      $('#sub_category1_input').attr('value', this.id);
+    });
+
+    $('.sub_option2').click(function(){
+      $('#subcategory2').html(this.id);
+      $('#sub_category2_input').attr('value', this.id);
+    });
+  });
+});
+</script>
+{% endblock %}
+
+

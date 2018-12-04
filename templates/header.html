@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<title>Crime Data</title>
+
+	<meta charset='utf-8'>
+
+	<!-- Bokeh CDN -->
+
+	<link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.css" type="text/css" />
+
+	<script src="../Crime_Data/data.py"></script>
+
+	<!-- Link to JQuery -->
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="CSS/header.css">  
+
+	<!-- Latest compiled and minified CSS -->
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+
+	<!-- Optional theme -->
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+
+
+	<!-- Latest compiled and minified JavaScript -->
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>	
+
+	<style>
+
+	body {
+
+		padding-top: 70px;
+
+	}
+
+	h1 {
+
+		font-family: "Times New Roman";
+
+	}
+
+
+
+	h4 {
+
+		font-family: "Times New Roman";
+
+		font-size: 28px;
+
+	}
+
+	footer{
+
+		margin-top: 100px;
+
+	}
+
+
+
+	.container-fluid{
+
+    background-color: #3333;
+
+    }
+
+
+
+	#header a:hover {
+
+    background-color: #0DBFFF;
+
+    }
+
+
+
+	.footer{
+
+	background-color: #FFFFFF;
+
+	}
+
+
+
+	ul li{
+
+	    display: inline;
+
+	}
+
+	</style>
+
+</head>
+
+
+
+<body>
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+
+    		$('dropdown-toggle').dropdown()
+
+	});
+
+</script>
+
+<nav class="navbar navbar-default navbar-fixed-top" id="header">
+
+	<div class='container-fluid'>
+
+		<a class="navbar-brand" href="/">&nbsp;Home&nbsp;</a>
+
+		<a class="navbar-brand" href="/pivot">&nbsp;Create Pivot Table&nbsp;</a>
+
+		<a class="navbar-brand" href="/observations">&nbsp;Observations&nbsp;</a>
+
+        <a class="navbar-brand" href="https://data.gov.au/dataset/nsw-crime-data/resource/6d8bc2d8-1175-489f-9b02-b6a52d140891">
+
+            Crime Stats NSW</a>
+
+	</div>
+
+	
+
+</nav>
+
+
+
+	{% block content %}
+
+	{% endblock %}
+
+
+
+
+
+<div class='navbar navbar-default navbar-fixed-bottom' role='navigation'>
+
+	<div class="footer">
+
+		<p align = 'left' class="footer">
+
+		<h5>
+
+			Created by:
+
+			<ul type="circle">
+
+				<li>Ninad Kavi  -   <i>855506&nbsp;&nbsp;&nbsp;&nbsp;</i></li>
+
+				<li>Terence Denning - <i>xxxxxx&nbsp;&nbsp;&nbsp;&nbsp;</i></li>
+
+				<li>Sicong Hu  -   <i>xxxxxx</i></li>
+
+			</ul>
+
+		</h5>
+
+		</p>
+
+	</div>
+
+</div>
+
+
+
+</body>
+
+</html>

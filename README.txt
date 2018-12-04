@@ -1,0 +1,4 @@
+-> Go to directory 
+-> Run the command "export FLASK_APP=hello.py"
+-> Run the command "flask run"
+-> Follow url suggested, should be 127.0.0.1:5000 but may differ across operating systems
